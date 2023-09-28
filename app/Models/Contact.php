@@ -15,7 +15,8 @@ class Contact extends Model
         'phone',
         'company',
         'contact_social_code',
-        'contact_users_code'
+        'contact_users_code',
+        'contact_group_code'
     ];
 
     public function user()
@@ -26,5 +27,9 @@ class Contact extends Model
     public function social()
     {
         return $this->belongsTo(Social::class, 'contact_social_code', 'social_code');
+    }
+    public function group()
+    {
+        return $this->belongsTo(GroupContact::class, 'contact_group_code', 'group_code');
     }
 }

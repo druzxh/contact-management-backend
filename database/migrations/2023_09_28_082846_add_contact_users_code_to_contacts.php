@@ -12,13 +12,9 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('socials', function (Blueprint $table) {
-            $table->id();
-            $table->string('social_code');
-            $table->string('instagram');
-            $table->string('linkedin');
-            $table->string('tiktok');
-            $table->timestamps();
+        Schema::table('contacts', function (Blueprint $table) {
+            $table->string('contact_users_code');
+            $table->string('contact_group_code')->nullable();
         });
     }
 
@@ -29,6 +25,9 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('socials');
+        Schema::table('contacts', function (Blueprint $table) {
+            $table->dropColumn('contact_users_code');
+            $table->dropColumn('contact_group_code');
+        });
     }
 };

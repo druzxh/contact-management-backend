@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ContactController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Test;
@@ -40,4 +41,12 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:sanctum']], function () {
 
     Route::post('/token', [AuthController::class, 'checkToken']);
     Route::post('/logout', [AuthController::class, 'logout']);
+
+    Route::group(['prefix' => 'contact'], function () {
+        Route::get('all', [ContactController::class, 'allContact']);
+        Route::get('detail/{contact_code}', [ContactController::class, 'detailContact']);
+        Route::post('add', [ContactController::class, 'addContact']);
+        Route::post('update', [ContactController::class, 'updateContact']);
+        Route::post('delete', [ContactController::class, 'deleteContact']);
+    });
 });
