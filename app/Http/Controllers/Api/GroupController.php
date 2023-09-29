@@ -50,7 +50,7 @@ class GroupController extends ApiController
         if (Auth::check()) {
             $user = Auth::user();
             $contacts = GroupContact::where('group_users_code', $user->users_code)
-                ->where('isDelete', 0)
+                ->where('is_delete', 0)
                 ->get();
 
             return $this->sendResponse(1, 'Data retrieved Successfully', $contacts);
@@ -69,7 +69,7 @@ class GroupController extends ApiController
             $users_code = Auth::user()->users_code;
             $groupContact = GroupContact::where('group_code', $group_code)
                 ->where('group_users_code', $users_code)
-                ->where('isDelete', 0)
+                ->where('is_delete', 0)
                 ->first();
 
             if (!$groupContact) {
@@ -102,7 +102,7 @@ class GroupController extends ApiController
             }
 
             $groupContact = GroupContact::where('group_code', $request->group_code)
-                ->where('isDelete', 0)
+                ->where('is_delete', 0)
                 ->first();
             $user_code = Auth::user()->users_code;
 
@@ -143,7 +143,7 @@ class GroupController extends ApiController
                 return $this->sendError(3, 'Group Contact not found', []);
             }
 
-            $groupContact->update(['isDelete' => 1]);
+            $groupContact->update(['is_delete' => 1]);
 
             return $this->sendResponse(1, 'Group Contact deleted successfully');
         } else {

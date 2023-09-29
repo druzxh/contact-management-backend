@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->string('group_name');
             $table->bigInteger('group_total')->default(0);
             $table->string('group_description');
-            $table->tinyInteger('isDelete')->default(0);
+            $table->tinyInteger('is_delete')->default(0);
             $table->timestamps();
         });
     }

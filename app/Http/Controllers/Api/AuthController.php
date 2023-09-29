@@ -45,7 +45,7 @@ class AuthController extends ApiController
             'email_verified_at' => $user->email_verified_at,
             'created_at' => $user->created_at,
             'updated_at' => $user->updated_at,
-            'isActive' => $user->isActive,
+            'is_active' => $user->is_active,
             'users_code' => $user->users_code,
             'username' => $user->username,
             'access_token' => $token,
@@ -117,7 +117,7 @@ class AuthController extends ApiController
         $email = $request->email;
         $user = User::where('email', $email)->first();
 
-        if ($user->isActive == 0) {
+        if ($user->is_active == 0) {
             return $this->sendError(2, "Akun anda telah di-nonaktifkan. Silahkan contact admin", (object) array());
         }
 

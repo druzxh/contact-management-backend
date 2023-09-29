@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SocialContact extends Model
+class Social extends Model
 {
     use HasFactory;
     protected $fillable = [
         'social_code',
-        'instagram',
-        'linkedin',
-        'tiktok'
+        'social_name',
+        'social_url',
+        'social_is_delete'
     ];
 }

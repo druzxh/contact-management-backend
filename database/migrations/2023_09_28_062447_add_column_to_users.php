@@ -13,8 +13,8 @@ return new class extends Migration {
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->tinyInteger('isActive')->default(1);
-            $table->tinyInteger('isDelete')->default(0);
+            $table->tinyInteger('is_active')->default(1);
+            $table->tinyInteger('is_delete')->default(0);
             $table->string('users_code');
             $table->string('username')->unique();
         });

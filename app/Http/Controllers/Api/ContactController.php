@@ -55,7 +55,7 @@ class ContactController extends ApiController
         if (Auth::check()) {
             $user_code = Auth::user()->users_code;
             $contacts = Contact::where('contact_users_code', $user_code)
-                ->where('isDelete', 0)
+                ->where('is_delete', 0)
                 ->get();
             return $this->sendResponse(1, 'Data retrieved Successfully', $contacts);
 
@@ -73,7 +73,7 @@ class ContactController extends ApiController
             $user_code = Auth::user()->users_code;
             $contact = Contact::where('contact_users_code', $user_code)
                 ->where('contact_code', $contact_code)
-                ->where('isDelete', 0)
+                ->where('is_delete', 0)
                 ->first();
 
             if (!$contact) {
@@ -110,7 +110,7 @@ class ContactController extends ApiController
             $user_code = Auth::user()->users_code;
             $contact = Contact::where('contact_users_code', $user_code)
                 ->where('contact_code', $request->contact_code)
-                ->where('isDelete', 0)
+                ->where('is_delete', 0)
                 ->first();
 
             if (!$contact) {
@@ -155,7 +155,7 @@ class ContactController extends ApiController
                 return $this->sendError(3, 'Contact not found', []);
             }
 
-            $contact->update(['isDelete' => 1]);
+            $contact->update(['is_delete' => 1]);
 
             return $this->sendResponse(1, 'Contact deleted successfully');
         } else {

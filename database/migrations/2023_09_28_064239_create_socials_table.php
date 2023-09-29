@@ -15,9 +15,9 @@ return new class extends Migration {
         Schema::create('socials', function (Blueprint $table) {
             $table->id();
             $table->string('social_code');
-            $table->string('instagram')->nullable();
-            $table->string('linkedin')->nullable();
-            $table->string('tiktok')->nullable();
+            $table->string('social_name')->nullable();
+            $table->string('social_url')->nullable();
+            $table->tinyInteger('social_is_delete')->default(0);
             $table->timestamps();
         });
     }
