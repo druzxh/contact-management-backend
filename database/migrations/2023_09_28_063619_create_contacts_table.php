@@ -17,9 +17,9 @@ return new class extends Migration {
             $table->string('contact_code');
             $table->string('name');
             $table->string('email');
-            $table->string('phone');
+            $table->bigInteger('phone');
             $table->string('company');
-            $table->string('contact_social_code');
+            $table->string('contact_social_code')->nullable();
             $table->timestamps();
         });
     }
