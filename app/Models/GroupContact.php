@@ -12,7 +12,17 @@ class GroupContact extends Model
     protected $fillable = [
         'group_code',
         'group_name',
-        'group_total',
         'group_description',
     ];
+
+    public function contacts()
+    {
+        return $this->hasMany(Contact::class, 'contact_group_code', 'group_code');
+    }
+
+    public function getGroupTotalAttribute()
+    {
+        return $this->contacts()->count();
+    }
+
 }
