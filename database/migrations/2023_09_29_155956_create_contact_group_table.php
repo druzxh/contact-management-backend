@@ -14,13 +14,14 @@ return new class extends Migration {
     {
         Schema::create('contact_group', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('contact_code');
-            $table->unsignedBigInteger('group_code');
+            $table->unsignedBigInteger('contact_id');
+            $table->string('contact_code');
+            $table->unsignedBigInteger('group_id');
+            $table->string('group_code');
             $table->timestamps();
 
-            $table->foreign('contact_code')->references('id')->on('contacts')->onDelete('cascade');
-            $table->foreign('group_code')->references('id')->on('group_contacts')->onDelete('cascade');
-
+            $table->foreign('contact_id')->references('id')->on('contacts')->onDelete('cascade');
+            $table->foreign('group_id')->references('id')->on('group_contacts')->onDelete('cascade');
         });
     }
 

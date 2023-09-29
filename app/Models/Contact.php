@@ -16,7 +16,8 @@ class Contact extends Model
         'company',
         'contact_social_code',
         'contact_users_code',
-        'contact_group_code'
+        'contact_group_code',
+        'isDelete',
     ];
 
     public function user()
@@ -30,6 +31,6 @@ class Contact extends Model
     }
     public function groups()
     {
-        return $this->belongsToMany(GroupContact::class, 'contact_group', 'contact_code', 'group_code');
+        return $this->belongsToMany(GroupContact::class, 'contact_group', 'contact_id', 'group_id');
     }
 }

@@ -20,6 +20,8 @@ return new class extends Migration {
             $table->bigInteger('phone');
             $table->string('company');
             $table->string('contact_social_code')->nullable();
+            $table->tinyInteger('isActive')->default(1);
+            $table->tinyInteger('isDelete')->default(0);
             $table->timestamps();
         });
     }

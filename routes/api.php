@@ -58,4 +58,9 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:sanctum']], function () {
         Route::post('update', [GroupController::class, 'updateContactGroup']);
         Route::post('delete', [GroupController::class, 'deleteContactGroup']);
     });
+    Route::group(['prefix' => 'group'], function () {
+        Route::post('insert/contact', [GroupController::class, 'insertContactToGroup']);
+        Route::post('remove/contact', [GroupController::class, 'removeContactFromGroup']);
+        ;
+    });
 });

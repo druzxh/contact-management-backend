@@ -14,6 +14,7 @@ return new class extends Migration {
     {
         Schema::table('users', function (Blueprint $table) {
             $table->tinyInteger('isActive')->default(1);
+            $table->tinyInteger('isDelete')->default(0);
             $table->string('users_code');
             $table->string('username')->unique();
         });
@@ -28,6 +29,7 @@ return new class extends Migration {
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('isActive');
+            $table->dropColumn('isDelete');
             $table->dropColumn('users_code');
             $table->dropColumn('username');
         });
