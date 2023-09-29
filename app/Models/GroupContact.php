@@ -13,11 +13,12 @@ class GroupContact extends Model
         'group_code',
         'group_name',
         'group_description',
+        'group_users_code'
     ];
 
     public function contacts()
     {
-        return $this->hasMany(Contact::class, 'contact_group_code', 'group_code');
+        return $this->belongsToMany(Contact::class, 'contact_group', 'group_code', 'contact_code');
     }
 
     public function getGroupTotalAttribute()

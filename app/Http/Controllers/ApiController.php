@@ -19,7 +19,7 @@ class ApiController extends Controller
     {
         return response()->json([
             'code' => $code,
-            'status' => true,
+            'success' => true,
             'message' => $message,
             'data' => $this->normalizeResult($data),
         ], $statusCode);
@@ -38,7 +38,7 @@ class ApiController extends Controller
     {
         return response()->json([
             'code' => $code,
-            'status' => true,
+            'success' => true,
             'message' => $message,
         ], $statusCode);
     }
@@ -56,7 +56,7 @@ class ApiController extends Controller
     {
         return response()->json([
             'code' => $code,
-            'status' => false,
+            'success' => false,
             'message' => $message,
             'errors' => $this->normalizeResult($errorMessages),
         ], $statusCode);

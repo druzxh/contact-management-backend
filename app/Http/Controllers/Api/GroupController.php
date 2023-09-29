@@ -4,20 +4,18 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
-use App\Models\Contact;
+use App\Models\GroupContact;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
-class ContactController extends ApiController
+class GroupController extends ApiController
 {
-    public function addContact(Request $request)
+    public function addContactGroup(Request $request)
     {
         if (Auth::check()) {
             $rules = [
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email',
-                'phone' => 'required',
-                'company' => 'required',
+                'group_name' => 'required|string|max:255',
+                'group_description' => 'required|string|max:255',
             ];
 
             $validator = Validator::make($request->all(), $rules);
@@ -27,18 +25,14 @@ class ContactController extends ApiController
             }
 
             $users_code = Auth::user()->users_code;
-            $contact = new Contact([
-                'contact_code' => generateCode('CONTACTS'),
-                'name' => $request->name,
-                'email' => $request->email,
-                'phone' => $request->phone,
-                'company' => $request->company,
-                'contact_social_code' => generateCode('SOCIALCONTACT'),
-                'contact_users_code' => $users_code,
-                'contact_group_code' => $request->contact_group_code
+            $groupContact = new GroupContact([
+                'group_code' => generateCode('GROUPCONTACTS'),
+                'group_users_code' => $users_code,
+                'group_name' => $request->group_name,
+                'group_description' => $request->group_description,
             ]);
 
-            $contact->save();
+            $groupContact->save();
             return $this->sendCreatedResponse(1, 'Data created Successfully');
 
         } else {
@@ -50,11 +44,12 @@ class ContactController extends ApiController
 
     }
 
-    public function allContact(Request $request)
+    public function allContactGroup(Request $request)
     {
         if (Auth::check()) {
-            $user_code = Auth::user()->users_code;
-            $contacts = Contact::where('contact_users_code', $user_code)->get();
+            $user = Auth::user();
+            $contacts = GroupContact::where('group_users_code', $user->users_code)->get();
+
             return $this->sendResponse(1, 'Data retrieved Successfully', $contacts);
 
         } else {
@@ -65,19 +60,18 @@ class ContactController extends ApiController
         }
     }
 
-    public function detailContact($contact_code)
+    public function detailContactGroup($group_code)
     {
         if (Auth::check()) {
-            $user_code = Auth::user()->users_code;
-            $contact = Contact::where('contact_users_code', $user_code)
-                ->where('contact_code', $contact_code)
-                ->first();
+            $users_code = Auth::user()->users_code;
+            $groupContact = GroupContact::where('group_code', $group_code)->where('group_users_code', $users_code)->first();
 
-            if (!$contact) {
+            if (!$groupContact) {
                 return $this->sendError(3, 'Contact not found', []);
             }
+            $totalContacts = $groupContact->group_total;
 
-            return $this->sendResponse(1, 'Contact details retrieved successfully', $contact);
+            return $this->sendResponse(1, 'Contact details retrieved successfully', $groupContact);
         } else {
             $errors = [
                 'Unauthenticated' => 'You must be logged in to access this resource.',
@@ -86,16 +80,13 @@ class ContactController extends ApiController
         }
     }
 
-    public function updateContact(Request $request)
+    public function updateContactGroup(Request $request)
     {
         if (Auth::check()) {
             $rules = [
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email',
-                'phone' => 'required',
-                'company' => 'required',
-                'contact_code' => 'required',
-                'contact_group_code' => 'required',
+                'group_name' => 'required|string|max:255',
+                'group_description' => 'required|string|max:255',
+                'group_code' => 'required',
             ];
 
             $validator = Validator::make($request->all(), $rules);
@@ -104,23 +95,19 @@ class ContactController extends ApiController
                 return $this->sendError(1, 'Validation error', $validator->errors());
             }
 
+            $groupContact = GroupContact::where('group_code', $request->group_code)->first();
             $user_code = Auth::user()->users_code;
-            $contact = Contact::where('contact_users_code', $user_code)
-                ->where('contact_code', $request->contact_code)
-                ->first();
 
-            if (!$contact) {
+            if (!$groupContact) {
                 return $this->sendError(3, 'Contact not found', []);
             }
 
-            $contact->name = $request->name;
-            $contact->email = $request->email;
-            $contact->phone = $request->phone;
-            $contact->company = $request->company;
-            $contact->contact_group_code = $request->contact_group_code;
-            $contact->save();
+            $groupContact->group_users_code = $user_code;
+            $groupContact->group_name = $request->group_name;
+            $groupContact->group_description = $request->group_description;
+            $groupContact->save();
 
-            return $this->sendResponse(1, 'Contact updated successfully', $contact);
+            return $this->sendResponse(1, 'Contact updated successfully', $groupContact);
         } else {
             $errors = [
                 'Unauthenticated' => 'You must be logged in to access this resource.',
@@ -129,11 +116,11 @@ class ContactController extends ApiController
         }
     }
 
-    public function deleteContact(Request $request)
+    public function deleteContactGroup(Request $request)
     {
         if (Auth::check()) {
             $rules = [
-                'contact_code' => 'required',
+                'group_code' => 'required',
             ];
 
             $validator = Validator::make($request->all(), $rules);
@@ -142,16 +129,13 @@ class ContactController extends ApiController
                 return $this->sendError(1, 'Validation error', $validator->errors());
             }
 
-            $user_code = Auth::user()->users_code;
-            $contact = Contact::where('contact_users_code', $user_code)
-                ->where('contact_code', $request->contact_code)
-                ->first();
+            $groupContact = GroupContact::where('group_code', $request->group_code)->first();
 
-            if (!$contact) {
+            if (!$groupContact) {
                 return $this->sendError(3, 'Contact not found', []);
             }
 
-            $contact->delete();
+            $groupContact->delete();
 
             return $this->sendResponse(1, 'Contact deleted successfully');
         } else {

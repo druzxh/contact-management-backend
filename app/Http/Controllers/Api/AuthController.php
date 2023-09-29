@@ -32,7 +32,7 @@ class AuthController extends ApiController
                 'password' => 'required'
             ];
 
-            return $this->sendError(2, 'Username atau password salah', $errors);
+            return $this->sendError(2, 'Wrong username or password', $errors);
         }
 
         $user = Auth::user();
@@ -51,7 +51,7 @@ class AuthController extends ApiController
             'access_token' => $token,
         ];
 
-        return $this->sendResponse(0, 'Login berhasil', $responseData);
+        return $this->sendResponse(0, 'Login Successfully', $responseData);
     }
 
     public function checkToken(Request $request)

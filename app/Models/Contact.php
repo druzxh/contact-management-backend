@@ -28,8 +28,8 @@ class Contact extends Model
     {
         return $this->belongsTo(Social::class, 'contact_social_code', 'social_code');
     }
-    public function group()
+    public function groups()
     {
-        return $this->belongsTo(GroupContact::class, 'contact_group_code', 'group_code');
+        return $this->belongsToMany(GroupContact::class, 'contact_group', 'contact_code', 'group_code');
     }
 }
