@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\GroupController;
 use App\Http\Controllers\Api\SocialContactController;
 use App\Http\Controllers\Api\ContactController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Test;
@@ -37,8 +38,9 @@ Route::group(['prefix' => 'v1'], function () {
 });
 
 Route::group(['prefix' => 'v1', 'middleware' => ['auth:sanctum']], function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
+    Route::group(['prefix' => 'user'], function () {
+        Route::get('profile', [UserController::class, 'getProfile']);
+        Route::post('profile/update', [UserController::class, 'updateProfile']);
     });
 
     Route::post('/token', [AuthController::class, 'checkToken']);
