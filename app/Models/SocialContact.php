@@ -12,11 +12,12 @@ class SocialContact extends Model
         'social_code',
         'social_name',
         'social_url',
-        'social_is_delete'
+        'social_is_delete',
+        'social_contact_code'
     ];
 
     public function contacts()
     {
-        return $this->belongsToMany(Contact::class, 'social_contact_code', 'contact_code');
+        return $this->hasOne(Contact::class, 'contact_code', 'social_contact_code');
     }
 }

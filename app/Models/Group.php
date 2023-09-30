@@ -14,7 +14,7 @@ class Group extends Model
         'group_name',
         'group_description',
         'group_users_code',
-        'isDelete',
+        'is_delete',
     ];
 
     public function contacts()

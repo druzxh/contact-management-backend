@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\GroupController;
+use App\Http\Controllers\Api\SocialContactController;
 use App\Http\Controllers\Api\ContactController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -49,6 +50,14 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:sanctum']], function () {
         Route::post('add', [ContactController::class, 'addContact']);
         Route::post('update', [ContactController::class, 'updateContact']);
         Route::post('delete', [ContactController::class, 'deleteContact']);
+    });
+
+    Route::group(['prefix' => 'social'], function () {
+        Route::get('all', [SocialContactController::class, 'allSocialContact']);
+        Route::get('detail/{social_code}', [SocialContactController::class, 'detailSocialContact']);
+        Route::post('add', [SocialContactController::class, 'addSocialContact']);
+        Route::post('update', [SocialContactController::class, 'updateSocialContact']);
+        Route::post('delete', [SocialContactController::class, 'deleteSocialContact']);
     });
 
     Route::group(['prefix' => 'group'], function () {

@@ -33,7 +33,6 @@ class ContactController extends ApiController
                 'email' => $request->email,
                 'phone' => $request->phone,
                 'company' => $request->company,
-                'contact_social_code' => generateCode('SOCIALCONTACT'),
                 'contact_users_code' => $users_code,
                 'contact_group_code' => $request->contact_group_code
             ]);
@@ -56,6 +55,7 @@ class ContactController extends ApiController
             $user_code = Auth::user()->users_code;
             $contacts = Contact::where('contact_users_code', $user_code)
                 ->where('is_delete', 0)
+                ->with('social_contacts')
                 ->get();
             return $this->sendResponse(1, 'Data retrieved Successfully', $contacts);
 
@@ -74,6 +74,7 @@ class ContactController extends ApiController
             $contact = Contact::where('contact_users_code', $user_code)
                 ->where('contact_code', $contact_code)
                 ->where('is_delete', 0)
+                ->with('social_contacts')
                 ->first();
 
             if (!$contact) {
@@ -98,7 +99,6 @@ class ContactController extends ApiController
                 'phone' => 'required',
                 'company' => 'required',
                 'contact_code' => 'required',
-                'contact_group_code' => 'required',
             ];
 
             $validator = Validator::make($request->all(), $rules);
@@ -122,6 +122,7 @@ class ContactController extends ApiController
             $contact->phone = $request->phone;
             $contact->company = $request->company;
             $contact->contact_group_code = $request->contact_group_code;
+            $contact->contact_social_code = $request->contact_social_code;
             $contact->save();
 
             return $this->sendResponse(1, 'Contact updated successfully', $contact);
