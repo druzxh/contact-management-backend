@@ -21,7 +21,7 @@ return new class extends Migration {
             $table->timestamps();
 
             $table->foreign('contact_id')->references('id')->on('contacts')->onDelete('cascade');
-            $table->foreign('group_id')->references('id')->on('group_contacts')->onDelete('cascade');
+            $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
         });
     }
 

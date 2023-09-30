@@ -51,16 +51,14 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:sanctum']], function () {
         Route::post('delete', [ContactController::class, 'deleteContact']);
     });
 
-    Route::group(['prefix' => 'group/contact'], function () {
-        Route::get('all', [GroupController::class, 'allContactGroup']);
-        Route::get('detail/{contact_code}', [GroupController::class, 'detailContactGroup']);
-        Route::post('add', [GroupController::class, 'addContactGroup']);
-        Route::post('update', [GroupController::class, 'updateContactGroup']);
-        Route::post('delete', [GroupController::class, 'deleteContactGroup']);
-    });
     Route::group(['prefix' => 'group'], function () {
+        Route::get('all', [GroupController::class, 'allGroup']);
+        Route::get('detail/{contact_code}', [GroupController::class, 'detailGroup']);
+        Route::post('add', [GroupController::class, 'addGroup']);
+        Route::post('update', [GroupController::class, 'updateGroup']);
+        Route::post('delete', [GroupController::class, 'deleteGroup']);
+
         Route::post('insert/contact', [GroupController::class, 'insertContactToGroup']);
         Route::post('remove/contact', [GroupController::class, 'removeContactFromGroup']);
-        ;
     });
 });

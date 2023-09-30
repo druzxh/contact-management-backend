@@ -12,9 +12,10 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('socials', function (Blueprint $table) {
+        Schema::create('socials_contact', function (Blueprint $table) {
             $table->id();
             $table->string('social_code');
+            $table->string('social_contact_code');
             $table->string('social_name')->nullable();
             $table->string('social_url')->nullable();
             $table->tinyInteger('social_is_delete')->default(0);
@@ -29,6 +30,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('socials');
+        Schema::dropIfExists('socials_contact');
     }
 };

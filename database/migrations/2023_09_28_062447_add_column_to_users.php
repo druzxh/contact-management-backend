@@ -28,8 +28,8 @@ return new class extends Migration {
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('isActive');
-            $table->dropColumn('isDelete');
+            $table->dropColumn('is_active');
+            $table->dropColumn('is_delete');
             $table->dropColumn('users_code');
             $table->dropColumn('username');
         });
