@@ -41,9 +41,9 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:sanctum']], function () {
     Route::group(['prefix' => 'user'], function () {
         Route::get('profile', [UserController::class, 'getProfile']);
         Route::post('profile/update', [UserController::class, 'updateProfile']);
+        Route::post('/token', [AuthController::class, 'checkToken']);
     });
 
-    Route::post('/token', [AuthController::class, 'checkToken']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::group(['prefix' => 'contact'], function () {

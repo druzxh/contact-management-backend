@@ -35,7 +35,7 @@ class SocialContactController extends ApiController
 
             $social->save();
 
-            return $this->sendCreatedResponse(1, 'Data Created Successfully');
+            return $this->sendCreatedResponse(1, 'Data Created Successfully', $social);
 
         } else {
             $errors = [
@@ -145,7 +145,7 @@ class SocialContactController extends ApiController
 
             $social->update(['social_is_delete' => 1]);
 
-            return $this->sendResponse(1, 'Social Contact deleted successfully');
+            return $this->sendResponse(1, 'Social Contact deleted successfully', $social);
         } else {
             $errors = [
                 'Unauthenticated' => 'You must be logged in to access this resource.',

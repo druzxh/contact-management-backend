@@ -34,12 +34,13 @@ class ApiController extends Controller
      * @param int $statusCode
      * @return \Illuminate\Http\JsonResponse
      */
-    public function sendCreatedResponse($code, $message, $statusCode = 201)
+    public function sendCreatedResponse($code, $message, $data = array(), $statusCode = 201)
     {
         return response()->json([
             'code' => $code,
             'success' => true,
             'message' => $message,
+            'data' => $this->normalizeResult($data),
         ], $statusCode);
     }
 

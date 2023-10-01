@@ -34,11 +34,10 @@ class ContactController extends ApiController
                 'phone' => $request->phone,
                 'company' => $request->company,
                 'contact_users_code' => $users_code,
-                'contact_group_code' => $request->contact_group_code
             ]);
 
             $contact->save();
-            return $this->sendCreatedResponse(1, 'Data created Successfully');
+            return $this->sendCreatedResponse(1, 'Data created Successfully', $contact);
 
         } else {
             $errors = [
@@ -56,6 +55,7 @@ class ContactController extends ApiController
             $contacts = Contact::where('contact_users_code', $user_code)
                 ->where('is_delete', 0)
                 ->with('social_contacts')
+                ->with('groups')
                 ->get();
             return $this->sendResponse(1, 'Data retrieved Successfully', $contacts);
 
@@ -75,6 +75,7 @@ class ContactController extends ApiController
                 ->where('contact_code', $contact_code)
                 ->where('is_delete', 0)
                 ->with('social_contacts')
+                ->with('groups')
                 ->first();
 
             if (!$contact) {
@@ -121,7 +122,6 @@ class ContactController extends ApiController
             $contact->email = $request->email;
             $contact->phone = $request->phone;
             $contact->company = $request->company;
-            $contact->contact_group_code = $request->contact_group_code;
             $contact->contact_social_code = $request->contact_social_code;
             $contact->save();
 
@@ -158,7 +158,7 @@ class ContactController extends ApiController
 
             $contact->update(['is_delete' => 1]);
 
-            return $this->sendResponse(1, 'Contact deleted successfully');
+            return $this->sendResponse(1, 'Contact deleted successfully', $contact);
         } else {
             $errors = [
                 'Unauthenticated' => 'You must be logged in to access this resource.',

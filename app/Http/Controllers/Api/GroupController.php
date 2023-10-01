@@ -34,7 +34,7 @@ class GroupController extends ApiController
             ]);
 
             $group->save();
-            return $this->sendCreatedResponse(1, 'Data created Successfully');
+            return $this->sendCreatedResponse(1, 'Data created Successfully', $group);
 
         } else {
             $errors = [
@@ -49,12 +49,13 @@ class GroupController extends ApiController
     {
         if (Auth::check()) {
             $user = Auth::user();
-            $s = Group::where('group_users_code', $user->users_code)
+            $group = Group::where('group_users_code', $user->users_code)
                 ->where('is_delete', 0)
                 ->with('contacts')
                 ->get();
 
-            return $this->sendResponse(1, 'Data retrieved Successfully', $s);
+            // dd($group);
+            return $this->sendResponse(1, 'Data retrieved Successfully', $group);
 
         } else {
             $errors = [
@@ -146,7 +147,7 @@ class GroupController extends ApiController
 
             $group->update(['is_delete' => 1]);
 
-            return $this->sendResponse(1, 'Group  deleted successfully');
+            return $this->sendResponse(1, 'Group  deleted successfully', $group);
         } else {
             $errors = [
                 'Unauthenticated' => 'You must be logged in to access this resource.',
@@ -182,7 +183,12 @@ class GroupController extends ApiController
                 'group_code' => $group->group_code,
             ]);
 
-            return $this->sendResponse(1, 'Contact added to group successfully');
+            $contact_group[] = [
+                'contact_group' => $group,
+                'contact' => $contact
+            ];
+
+            return $this->sendResponse(1, 'Contact added to group successfully', $contact_group);
         } else {
             $errors = [
                 'Unauthenticated' => 'You must be logged in to access this resource.',
@@ -209,9 +215,18 @@ class GroupController extends ApiController
                 return $this->sendError(3, 'Group or Contact not found', []);
             }
 
+            if (!$group->contacts()->where('contact_id', $contact->id)->exists()) {
+                return $this->sendResponse(1, 'Contact not found in the group');
+            }
+
             $group->contacts()->detach($contact);
 
-            return $this->sendResponse(1, 'Contact removed from group successfully');
+            $contact_group[] = [
+                'contact_group' => $group,
+                'contact' => $contact
+            ];
+
+            return $this->sendResponse(1, 'Contact removed from group successfully', $contact_group);
         } else {
             $errors = [
                 'Unauthenticated' => 'You must be logged in to access this resource.',

@@ -14,7 +14,6 @@ return new class extends Migration {
     {
         Schema::table('contacts', function (Blueprint $table) {
             $table->string('contact_users_code');
-            $table->string('contact_group_code')->nullable();
         });
     }
 
@@ -27,7 +26,6 @@ return new class extends Migration {
     {
         Schema::table('contacts', function (Blueprint $table) {
             $table->dropColumn('contact_users_code');
-            $table->dropColumn('contact_group_code');
         });
     }
 };

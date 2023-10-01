@@ -57,7 +57,19 @@ class AuthController extends ApiController
     public function checkToken(Request $request)
     {
         if (Auth::check()) {
-            return $this->sendResponse(0, "Valid Token", (object) array());
+            $header = Auth::user($request->header('Authorization'));
+            $header['token'] = $request->bearerToken();
+            $pict = 'https://i.ibb.co/KrkMWTJ/member.png';
+            if ($header['memberType'] == 2) {
+                $pict = 'https://i.ibb.co/hcWdx3J/reseller.png';
+            }
+            $header['users_profile_pic'] = $pict;
+
+            if ($header) {
+                return $this->sendResponse(0, "Valid token", $header);
+            } else {
+                return $this->sendError(1, "Invalid token");
+            }
         } else {
             return $this->sendError(2, "Invalid Token.", (object) array());
         }
@@ -82,6 +94,7 @@ class AuthController extends ApiController
             'username' => 'required|string|unique:users|max:255',
             'email' => 'required|string|email|unique:users',
             'password' => 'required|string|min:6',
+            'password_confirmation' => 'required|same:password',
         ];
 
         $validator = Validator::make($request->all(), $rules);
